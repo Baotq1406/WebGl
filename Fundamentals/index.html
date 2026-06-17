@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebGL Triangle</title>
-
     <style>
         body {
             margin: 0;
+            display: flex;
+            justify-content: center; /* căn giữa ngang */
+            align-items: center;     /* căn giữa dọc */
+            height: 100vh;           /* chiếm toàn bộ chiều cao màn hình */
         }
 
         canvas {
@@ -15,29 +19,56 @@
         }
     </style>
 </head>
-<body>
 
+<body>
     <canvas id="c" width="800" height="600"></canvas>
 
-    <!-- Vertex Shader -->
-    <script id="vertex-shader-2d" type="notjs">
-        attribute vec4 a_position;
+    <!-- 
+    Bạn có thể tạo chuỗi GLSL bằng bất kỳ cách nào thường dùng trong JavaScript:
 
+    Nối chuỗi (string concatenation)
+    Dùng AJAX/fetch để tải file shader từ server
+    Dùng template string nhiều dòng
+    Hoặc như ví dụ này: đặt shader bên trong các thẻ <script> không phải JavaScript.
+    -->
+
+
+    <!-- Vertex Shader -->
+    <!--
+    type="notjs"
+    trình duyệt không thực thi nội dung bên trong.
+    Nó chỉ lưu nội dung đó trong DOM để JavaScript có thể lấy ra:
+    -->
+    <script id="vertex-shader-2d" type="notjs">
+        // Một attribute sẽ nhận dữ liệu từ buffer
+        attribute vec4 a_position;
+             
+        // Mọi shader đều phải có hàm main
         void main() {
+            // gl_Position là biến đặc biệt mà
+            // Vertex Shader có trách nhiệm gán giá trị
             gl_Position = a_position;
         }
     </script>
+    
 
     <!-- Fragment Shader -->
     <script id="fragment-shader-2d" type="notjs">
+        // Fragment Shader không có độ chính xác mặc định,
+        // vì vậy chúng ta cần chỉ định một mức precision.
+        // mediump là lựa chọn phổ biến, nghĩa là "độ chính xác trung bình"
+        //Độ chính xác thấp → nhanh hơn, tốn ít tài nguyên hơn.
+        //Độ chính xác cao → chính xác hơn nhưng có thể chậm hơn.
         precision mediump float;
 
         void main() {
-            gl_FragColor = vec4(1.0, 0.0, 0.5, 1.0);
+            // gl_FragColor là biến đặc biệt mà
+            // Fragment Shader có trách nhiệm gán giá trị
+            gl_FragColor = vec4(1, 0, 0.5, 1); // màu hồng
         }
     </script>
-
-    <script src="./src/webGL_hello_world.js"></script>
-
+     <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="./src/main.js"></script>
 </body>
+
 </html>
