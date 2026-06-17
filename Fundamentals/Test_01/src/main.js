@@ -137,7 +137,7 @@ const positionBuffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
 // 3 điểm 2D
-var positions = [
+const positions = [
   0, 0,
   0, 0.5,
   0.7, 0,
@@ -218,8 +218,11 @@ gl.vertexAttribPointer(
     attributeOffset //bắt đầu đọc từ đâu
 );
 
+// Cứ mỗi 3 đỉnh liên tiếp sẽ tạo thành 1 tam giác độc lập.
 const primitiveType = gl.TRIANGLES;
+// offset = 0 tức là bắt đầu đọc từ đầu buffer
 const drawOffset  = 0;
+// count = 3 tức là đọc 3 đỉnh (3 * 2 = 6 giá trị trong buffer)
 const count = 3;
 
 gl.drawArrays(

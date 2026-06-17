@@ -1,0 +1,59 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url("https://webglfundamentals.org/webgl/resources/webgl-tutorials.css");
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        canvas {
+            width: 80vw;
+            height: 80vh;
+            border: 2px solid black;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+    <!-- vertex shader -->
+    <script  id="vertex-shader-2d" type="notjs">
+        attribute vec4 a_position;
+
+        uniform vec2 u_resolution;
+
+        void main() {
+            // convert the position from pixels to 0.0 to 1.0
+            vec2 zeroToOne = a_position.xy / u_resolution;
+
+            // convert from 0->1 to 0->2
+            vec2 zeroToTwo = zeroToOne * 2.0;
+
+            // convert from 0->2 to -1->+1 (clipspace)
+            vec2 clipSpace = zeroToTwo - 1.0;
+
+            // gl_Position = vec4(clipSpace, 0, 1);
+            gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+        }
+    </script>
+    <!-- fragment shader -->
+    <script  id="fragment-shader-2d" type="notjs">
+        precision mediump float;
+
+        uniform vec4 u_color;
+
+        void main() {
+            gl_FragColor = u_color;
+        }
+    </script>
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>
