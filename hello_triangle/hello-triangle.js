@@ -34,8 +34,8 @@ function helloTriangle() {
     // Bộ đệm 3 dùng cho một số hiệu ứng đồ hoạ.
     // gl.clear(gl.COLOR_BUFFER_BIT);
     // gl.clear(gl.DEPTH_BUFFER_BIT);
-    //gl.clearColor(0.08, 0.08, 0.08, 1.0);
-    //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    // gl.clearColor(0.08, 0.08, 0.08, 1.0);
+    // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 
     const triangleVertices = [
