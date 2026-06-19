@@ -1,0 +1,64 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url("https://webglfundamentals.org/webgl/resources/webgl-tutorials.css");
+        body {
+            margin: 0;
+        }
+        canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="uiContainer">
+    <div id="ui">
+        <div id="x"></div>
+        <div id="y"></div>
+        <div id="angle"></div>
+        <div id="scaleX"></div>
+        <div id="scaleY"></div>
+    </div>
+    </div>
+    <!-- vertex shader -->
+    <script  id="vertex-shader-2d" type="notjs">
+        attribute vec2 a_position;
+        attribute vec4 a_color;
+
+        uniform mat3 u_matrix;
+
+        varying vec4 v_color;
+
+        void main() {
+            // Nhân vị trí với ma trận biến đổi.
+            gl_Position = vec4((u_matrix * vec3(a_position, 1)).xy, 0, 1);
+
+            // Chuyển đổi từ clip space sang color space.
+            // Clip space có phạm vi từ -1.0 đến +1.0
+            // Color space có phạm vi từ 0.0 đến 1.0
+            v_color = a_color;
+        }
+    </script>
+
+    <!-- fragment shader -->
+    <script  id="fragment-shader-2d" type="notjs">
+        precision mediump float;
+
+        varying vec4 v_color;
+
+        void main() {
+            gl_FragColor = v_color;
+        }
+    </script>
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-lessons-ui.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/m3.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>
