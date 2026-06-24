@@ -29,10 +29,16 @@ const translationUniformLocation = gl.getUniformLocation(
     "u_translation"
 );
 
+const rotationUniformLocation = gl.getUniformLocation(
+    program,
+    "u_rotation"
+);
+
 // Create a buffer to store the position data
 const positionBuffer = gl.createBuffer();
 
-const translation = [0, 0];
+const translation = [250, 125];
+const rotation = [0, 1]; // [sin, cos] for a 90-degree rotation
 const color = [Math.random(), Math.random(), Math.random(), 1];
 
 function main() {
@@ -47,9 +53,23 @@ function main() {
 
     drawScene();
 
-    //set up ui
+    setupUI();
+}
+
+function setupUI() {
     webglLessonsUI.setupSlider("#x", { value: translation[0], slide: updatePosition(0), max: gl.canvas.width });
     webglLessonsUI.setupSlider("#y", { value: translation[1], slide: updatePosition(1), max: gl.canvas.height });
+
+    $("#rotation").gmanUnitCircle({
+    width: 200,
+    height: 200,
+    value: 0,
+    slide: function(e,u) {
+      rotation[0] = u.x;
+      rotation[1] = u.y;
+      drawScene();
+    }
+  });
 }
 
 function updatePosition(index) {
@@ -96,47 +116,15 @@ function drawScene() {
     //set the translation
     gl.uniform2fv(translationUniformLocation, translation);
 
+    //set the rotation
+    gl.uniform2fv(rotationUniformLocation, rotation);
+
     const primitiveType = gl.TRIANGLES;
     const offset2 = 0;
     const count = 18;
 
     gl.drawArrays(primitiveType, offset2, count);
 }
-
-// Fill the buffer with the values that define a letter 'F'.
-// function setGeometry(gl, x, y) {
-//   var width = 100;
-//   var height = 150;
-//   var thickness = 30;
-//   gl.bufferData(
-//       gl.ARRAY_BUFFER,
-//       new Float32Array([
-//           // left column
-//           x, y,
-//           x + thickness, y,
-//           x, y + height,
-//           x, y + height,
-//           x + thickness, y,
-//           x + thickness, y + height,
- 
-//           // top rung
-//           x + thickness, y,
-//           x + width, y,
-//           x + thickness, y + thickness,
-//           x + thickness, y + thickness,
-//           x + width, y,
-//           x + width, y + thickness,
- 
-//           // middle rung
-//           x + thickness, y + thickness * 2,
-//           x + width * 2 / 3, y + thickness * 2,
-//           x + thickness, y + thickness * 3,
-//           x + thickness, y + thickness * 3,
-//           x + width * 2 / 3, y + thickness * 2,
-//           x + width * 2 / 3, y + thickness * 3,
-//       ]),
-//       gl.STATIC_DRAW);
-// }
 
 // Fill the buffer with the values that define a letter 'F'.
 function setGeometry(gl) {
