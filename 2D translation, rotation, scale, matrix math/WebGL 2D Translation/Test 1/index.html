@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="uiContainer">
+        <div id="ui">
+            <div id = "x"></div>
+            <div id = "y"></div>
+        </div>
+    </div>
+
+    <!-- vertex shader -->
+    <script  id="vertex-shader-2d" type="notjs">
+        attribute vec2 a_position;
+
+        uniform vec2 u_resolution;
+
+        void main() {
+            // Chuyển đổi từ pixel space sang clip space
+            vec2 zeroToOne = a_position / u_resolution;
+
+            // Chuyển đổi từ 0->1 sang 0->2
+            vec2 zeroToTwo = zeroToOne * 2.0;
+
+            // Chuyển đổi từ 0->2 sang -1->+1 (clip space)
+            vec2 clipSpace = zeroToTwo - 1.0;
+
+            gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+        }
+    </script>
+
+    <!-- fragment shader -->
+    <script  id="fragment-shader-2d" type="notjs">
+        precision mediump float;
+
+        uniform vec4 u_color;
+
+        void main() {
+            gl_FragColor = u_color;
+        }
+    </script>
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-lessons-ui.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>
