@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div id="container">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <!-- vertex shader -->
+    <script  id="vertex-shader-2d" type="notjs">
+        attribute vec2 a_position;
+        attribute vec2 a_texcoord;
+
+        uniform vec2 u_resolution;
+
+        varying vec2 v_texcoord;
+
+        void main() {
+            // convert the rectangle from pixels to 0.0 to 1.0
+            vec2 zeroToOne = a_position / u_resolution;
+
+            // convert from 0->1 to 0->2
+            vec2 zeroToTwo = zeroToOne * 2.0;
+
+            // convert from 0->2 to -1->+1 (clipspace)
+            vec2 clipSpace = zeroToTwo - 1.0;
+
+            gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+
+            // pass the texcoord to the fragment shader
+            // The GPU will interpolate this value between points.
+            v_texcoord = a_texcoord;
+        }
+    </script>
+
+    <!-- fragment shader -->
+    <script  id="fragment-shader-2d" type="notjs">
+        precision mediump float;
+
+        // our texture
+        uniform sampler2D u_image;
+        uniform vec2 u_textureSize;
+        uniform float u_kernel[9];
+        uniform float u_kernelWeight;
+
+        // the texCoords passed in from the vertex shader.
+        varying vec2 v_texcoord;
+
+        void main() {
+            // Tính khoảng cách tương ứng với 1 pixel
+            // trong hệ tọa độ texture.
+            vec2 onePixel = vec2(1.0, 1.0) / u_textureSize;
+
+            vec4 colorSum =
+            texture2D(u_image, v_texcoord + onePixel * vec2(-1, -1)) * u_kernel[0] +
+            texture2D(u_image, v_texcoord + onePixel * vec2( 0, -1)) * u_kernel[1] +
+            texture2D(u_image, v_texcoord + onePixel * vec2( 1, -1)) * u_kernel[2] +
+            texture2D(u_image, v_texcoord + onePixel * vec2(-1,  0)) * u_kernel[3] +
+            texture2D(u_image, v_texcoord + onePixel * vec2( 0,  0)) * u_kernel[4] +
+            texture2D(u_image, v_texcoord + onePixel * vec2( 1,  0)) * u_kernel[5] +
+            texture2D(u_image, v_texcoord + onePixel * vec2(-1,  1)) * u_kernel[6] +
+            texture2D(u_image, v_texcoord + onePixel * vec2( 0,  1)) * u_kernel[7] +
+            texture2D(u_image, v_texcoord + onePixel * vec2( 1,  1)) * u_kernel[8] ;
+
+            gl_FragColor = vec4((colorSum / u_kernelWeight).rgb, 1);
+        }
+    </script>
+    
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="./main.js"></script>
+</body>
+</html>
