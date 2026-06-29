@@ -144,9 +144,9 @@ gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 // ];
 
 const positions = [
-  -0.875,  0.8333,
-  -0.875,  0.5,
-  -0.5,    0.5,
+    0.875,-0.5,
+    0.5,-0.833,
+    0.5,-0.5,
 ];
 
 /*
@@ -231,13 +231,13 @@ const drawOffset  = 0;
 // count = 3 tức là đọc 3 đỉnh (3 * 2 = 6 giá trị trong buffer)
 const count = 3;
 
-// gl.drawArrays(
-//     primitiveType,
-//     drawOffset,
-//     count
-// );
+gl.drawArrays(
+    primitiveType,
+    drawOffset,
+    count
+);
 
 
-//gl.drawArrays(gl.LINES, 0, 2);
-//gl.drawArrays(gl.LINES, 1, 2);
-gl.drawArrays(gl.LINES, 2, 2);
+// gl.drawArrays(gl.LINES, 0, 2);
+// gl.drawArrays(gl.LINES, 1, 2);
+// gl.drawArrays(gl.LINES, 2, 2);

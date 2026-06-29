@@ -47,10 +47,16 @@
     <script  id="fragment-shader-2d" type="notjs">
         precision mediump float;
 
-        uniform vec4 u_color;
+        //uniform vec4 u_color;
+        float rand(vec2 co)
+        {
+            return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+        }
 
         void main() {
-            gl_FragColor = u_color;
+            // gl_FragColor = u_color;
+
+            gl_FragColor = vec4(rand(gl_FragCoord.xy), rand(gl_FragCoord.xy), rand(gl_FragCoord.xy), 1);
         }
     </script>
     <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>

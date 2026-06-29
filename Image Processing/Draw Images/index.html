@@ -56,6 +56,9 @@
 
             // Lấy trung bình màu của pixel bên trái,
             // pixel hiện tại và pixel bên phải.
+            // gl_FragColor = texture2D(u_image, v_texCoord);
+            // gl_FragColor = texture2D(u_image, v_texCoord).bgra;
+
             gl_FragColor = (
                 texture2D(u_image, v_texcoord) +
                 texture2D(u_image, v_texcoord + vec2(onePixel.x, 0.0)) +

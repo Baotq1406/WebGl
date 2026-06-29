@@ -34,7 +34,7 @@ const texcoordBuffer = gl.createBuffer();
 function main() {
     const image = new Image();
 
-    image.src = "../images/AnhTest.png"; // Set the source of the image
+    image.src = "../Images/AnhTest.png"; // Set the source of the image
     image.onload = function () {
         render(image);
     }

@@ -35,6 +35,31 @@ const kernelWeightUniformLocation = gl.getUniformLocation(
     "u_kernelWeight"
 );
 
+/*
+Convolution Kernel (hay kernel tích chập) 
+là một ma trận nhỏ các hệ số dùng để tính lại giá trị c
+ủa một pixel dựa trên chính nó và các pixel lân cận. 
+Đây là kỹ thuật nền tảng trong xử lý ảnh và thị giác máy tính.
+
+Ví dụ một ảnh như sau:
+A  B  C
+D  E  F
+G  H  I
+
+Ví dụ kernel 3×3:
+k0  k1  k2
+k3  k4  k5
+k6  k7  k8
+
+E′= A×k0 ​+ B×k1 ​+ C×k2 ​+ D×k3 ​+ E×k4 ​+ F×k5 ​+ G×k6 ​+ H×k7 ​+ I×k8
+
+Sau đó chia cho tổng trọng số:
+E(final) = E′ / kernelWeight
+
+kernelWeight = Σ(k_i)
+Nếu kernelWeight <= 0 thì dùng 1.0.
+*/
+
 const edgeDetectKernel = [
     -1, -1, -1,
     -1,  8, -1,
